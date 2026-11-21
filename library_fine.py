@@ -1,6 +1,7 @@
 from datetime import date
 
 FINE_PER_DAY = 2  # rupees per late day
+MAX_FINE = 500    # maximum fine per book
 
 
 def days_late(due, ret):
@@ -17,12 +18,16 @@ def fine(days):
     return days * FINE_PER_DAY
 
 
+def capped_fine(days):
+    return min(fine(days), MAX_FINE)
+
+
 def main():
     due = date(2026, 11, 10)
     ret = date(2026, 11, 15)
     late = days_late(due, ret)
     if is_overdue(due, ret):
-        print(f"Overdue by {late} day(s). Fine = Rs. {fine(late)}")
+        print(f"Overdue by {late} day(s). Fine = Rs. {capped_fine(late)}")
     else:
         print("Returned on time. No fine.")
 
